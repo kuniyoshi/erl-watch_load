@@ -24,7 +24,7 @@ Copy This Repository to Your Home
 ---------------------------------
 
 ``` zsh
-  % git clone git://github.com/kuniyoshi/watch_load.git
+  % git clone git://github.com/kuniyoshi/erl-watch_load.git
   % make -C watch_load
 ```
 
