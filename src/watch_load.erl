@@ -4,12 +4,12 @@
 -define(INTERVAL, 1000).
 -include_lib("eunit/include/eunit.hrl").
 
-get_module_name_from_beam(Beam) ->
-    Name = re:replace(Beam, "(\\w+)[.]beam$", "\\g1", [{return, list}]),
+get_module_name_from_beam({_Path, Base}) ->
+    Name = re:replace(Base, "(\\w+)[.]beam$", "\\g1", [{return, list}]),
     list_to_atom(Name).
 
-get_mtime(Beam) ->
-    {ok, FileInfo} = file:read_file_info(filename:join("ebin", Beam)),
+get_mtime({Path, Base}) ->
+    {ok, FileInfo} = file:read_file_info(filename:join(Path, Base)),
     Mtime = lists:nth(6, tuple_to_list(FileInfo)),
     calendar:datetime_to_gregorian_seconds(Mtime).
 
@@ -48,7 +48,8 @@ loop_loading(Dir, LoadedModules) ->
     receive
         try_load ->
             {ok, Beams} = file:list_dir(Dir),
-            ?MODULE:loop_loading(Dir, load_beams(Beams, LoadedModules))
+            Beams2 = [{Dir, Base} || Base <- Beams],
+            ?MODULE:loop_loading(Dir, load_beams(Beams2, LoadedModules))
     end.
 
 loop_quering(Pid) ->
