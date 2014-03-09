@@ -25,7 +25,7 @@ Copy This Repository to Your Home
 
 ``` zsh
   % git clone git://github.com/kuniyoshi/erl-watch_load.git
-  % make -C watch_load
+  % make -C erl-watch_load
 ```
 
 Write Your Dot Erlang File
@@ -35,7 +35,7 @@ Write Your Dot Erlang File
   % echo <<END_WATCH_LOAD >>~/.erlang
 case os:getenv("ERL_WATCH_LOAD") of
     "1" ->
-        Filename = filename:join(os:getenv("HOME"), "watch_load/ebin/watch_load"),
+        Filename = filename:join(os:getenv("HOME"), "erl-watch_load/ebin/watch_load"),
         {module, watch_load} = code:load_abs(Filename),
         ok = watch_load:start_loop();
     false ->
